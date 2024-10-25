@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rso
+spec:
+  replicas: 3  # Number of replicas/pods
+  selector:
+    matchLabels:
+      app: rso
+  template:
+    metadata:
+      labels:
+        app: rso
+    spec:
+      containers:
+      - name: rso
+        image: matejbrodnik/rso:latest  # This should match your Docker image name
+        ports:
+        - containerPort: 4000
