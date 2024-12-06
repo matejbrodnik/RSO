@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Login from './components/Login.vue'
-import Home from './components/Home.vue'
+import Home from './components/Location.vue'
 </script>
 
 <template>

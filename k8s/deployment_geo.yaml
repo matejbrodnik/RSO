@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rsog
+  labels:
+    app: rsog
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rsog
+  template:
+    metadata:
+      labels:
+        app: rsog
+    spec:
+      containers:
+      - name: rsog
+        image: matejbrodnik/rsog:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4001
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: azure-sql-credentials
+              key: db-host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: azure-sql-credentials
+              key: db-user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: azure-sql-credentials
+              key: db-password
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: azure-sql-credentials
+              key: db-name
+      imagePullSecrets:
+      - name: dockerhub-secret

@@ -1,49 +1,3 @@
-<!-- <template>
-    <div class="login-container">
-      <h2>Login</h2>
-      <form @submit.prevent="handleLogin">
-        <div>
-          <label for="username">Username</label>
-          <input type="text" v-model="username" id="username" required />
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" v-model="password" id="password" required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </div>
-  </template> -->
-<!-- 
-  <template>
-    <form class="flex items-center justify-center min-h-screen" @submit.prevent="handleLogin">
-      <div class="flex flex-col px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow"
-          required
-          type="username"
-          placeholder="Username"
-          v-model="user" />
-        <input
-          class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow"
-          required
-          type="password"
-          placeholder="Password"
-          v-model="password" />
-        <input
-          class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700e"
-          type="submit"
-          :value="'Sign in'"/>
-        <router-link to="/register" class="mt-4 text-blue-500 hover:text-blue-700"
-          >Don't have an account? Sign up</router-link
-        >
-      </div>
-    </form>
-</template> -->
-  
-
-
 <template>
     <v-card>
         <v-card-title>Login</v-card-title>
@@ -69,7 +23,7 @@
     
 </template>
   
-<script lang="ts">
+<script>
   import { defineComponent } from 'vue';
   import axios from 'axios';
   
@@ -90,8 +44,10 @@
             password: this.password,
           });
           console.log(response)
-          if(response.data.redirect)
+          if(response.data.redirect) {
+            localStorage.setItem("uid", response.data.uid)
             this.$router.push(response.data.redirect)
+          }
         } catch (error) {
           if (error.response) {
             this.errorMessage = error.response.data.message;

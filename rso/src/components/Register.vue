@@ -20,7 +20,7 @@
     
 </template>
   
-<script lang="ts">
+<script>
   import { defineComponent } from 'vue';
   import axios from 'axios';
   
