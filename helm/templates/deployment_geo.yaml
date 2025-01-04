@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend_geo.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.backend_geo.name }}
+spec:
+  replicas: {{ .Values.backend_geo.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend_geo.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend_geo.name }}
+    spec:
+      containers:
+      - name: {{ .Values.backend_geo.name }}
+        image: "{{ .Values.backend_geo.image.repository }}:{{ .Values.backend_geo.image.tag }}"
+        imagePullPolicy: {{ .Values.backend_geo.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.backend_geo.port }}
+        env:
+        {{- range .Values.env }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend_geo_service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.backend_geo.name }}
+  ports:
+    - protocol: {{ .Values.backend_geo_service.protocol }}
+      port: {{ .Values.backend_geo_service.port }}
+      targetPort: {{ .Values.backend_geo.port }}

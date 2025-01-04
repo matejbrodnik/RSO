@@ -1,0 +1,58 @@
+namespace: rso
+imagePullSecrets:
+  name: dockerhub-secret
+env:
+  - name: DB_HOST
+    secretName: azure-sql-credentials
+    key: db-host
+  - name: DB_USER
+    secretName: azure-sql-credentials
+    key: db-user
+  - name: DB_PASSWORD
+    secretName: azure-sql-credentials
+    key: db-password
+  - name: DB_NAME
+    secretName: azure-sql-credentials
+    key: db-name
+
+frontend:
+  name: rsof
+  replicas: 3
+  image:
+    repository: matejbrodnik/rsof
+    tag: latest
+    pullPolicy: Always
+  port: 5174
+
+frontend_service:
+  name: rsofs
+  protocol: TCP
+  port: 80
+
+backend_auth:
+  name: rsoa
+  replicas: 3
+  image:
+    repository: matejbrodnik/rsoa
+    tag: latest
+    pullPolicy: Always
+  port: 4000
+
+backend_auth_service:
+  name: rsoas
+  protocol: TCP
+  port: 80
+
+backend_geo:
+  name: rsog
+  replicas: 3
+  image:
+    repository: matejbrodnik/rsog
+    tag: latest
+    pullPolicy: Always
+  port: 4001
+
+backend_geo_service:
+  name: rsogs
+  protocol: TCP
+  port: 80

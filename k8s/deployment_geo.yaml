@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rsog
+  namespace: rso
   labels:
     app: rsog
 spec:
@@ -43,3 +44,16 @@ spec:
               key: db-name
       imagePullSecrets:
       - name: dockerhub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rsogs
+  namespace: rso
+spec:
+  selector:
+    app: rsog
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4001

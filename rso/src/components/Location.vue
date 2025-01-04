@@ -34,7 +34,6 @@
             class="bg-deep-purple mt-3"
             theme="dark"
             style="position: relative;"
-            @click="setLocation"
           >
             Save Location
           </v-btn>
@@ -54,7 +53,13 @@
       }
     },
     mounted() {
-      this.initMap();
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD26pAYLTTluZjgPsljecxy4ppWdudC33A`;
+      script.async = true;
+      script.onload = () => {
+        this.initMap();
+      };
+      document.head.appendChild(script);
     },
     methods: {
       async initMap() {
@@ -88,7 +93,7 @@
         })
       },
       async setLocation() {
-        const response = await axios.post('http://localhost:4001/location', {
+        const response = await axios.post('http://rsogs.rso.svc.cluster.local:4001/location', {
             uid: localStorage.getItem("uid") ?? 0,
             lat: this.lat,
             lng: this.lng,

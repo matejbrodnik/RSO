@@ -5,11 +5,12 @@ const { connectToDatabase } = require('./db');
 const sql = require('mssql');
 
 const app = express();
-app.use(bodyParser.json());
+
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'OPTIONS'],
+  origin: '*', 
 }));
+
+app.use(bodyParser.json());
 
 
 (async () => {
@@ -78,4 +79,4 @@ app.post('/register', async (req, res) => {
 
 
 const PORT = 4000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));

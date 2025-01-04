@@ -1,0 +1,59 @@
+import express from "express";
+import { join } from "path";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+
+import cors from "cors";
+
+const app = express();
+const PORT = process.env.PORT || 5174;
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+}));
+
+
+// Serve static files
+const staticPath = join(__dirname, "dist"); // Adjust if your frontend build is in a different directory
+app.use(express.static(staticPath));
+
+// Proxy API calls to backend1
+app.use(
+  "/api/login",
+  createProxyMiddleware({
+    target: "http://rsoas.rso.svc.cluster.local/login", // Kubernetes service for Backend 1
+    changeOrigin: true,
+  })
+);
+
+// Proxy API calls to backend2
+app.use(
+  "/api/register",
+  createProxyMiddleware({
+    target: "http://rsoas.rso.svc.cluster.local:4000/register", // Kubernetes service for Backend 1
+    changeOrigin: true,
+  })
+);
+
+app.use(
+    "/api/location",
+    createProxyMiddleware({
+      target: "http://rsoas.rso.svc.cluster.local:4001/login", // Kubernetes service for Backend 2
+      changeOrigin: true,
+    })
+  );
+  
+
+// Catch-all route to serve the frontend's index.html
+app.get("*", (req, res) => {
+  res.sendFile(join(staticPath, "index.html"));
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

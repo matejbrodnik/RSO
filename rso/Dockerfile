@@ -1,18 +1,4 @@
-FROM node:16
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 5173
-
-CMD ["npm", "run", "dev"]
-
-# FROM node:18-alpine AS builder
+# FROM node:16
 
 # WORKDIR /app
 
@@ -22,12 +8,36 @@ CMD ["npm", "run", "dev"]
 
 # COPY . .
 
-# RUN npm run build-only
+# EXPOSE 5173
 
-# FROM nginx:alpine
+# CMD ["npm", "run", "dev"]
 
-# COPY --from=builder /app/dist /usr/share/nginx/html
+# Step 1: Build the frontend
+FROM node:16-alpine as builder
+WORKDIR /app
 
-# EXPOSE 80
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
 
-# CMD ["nginx", "-g", "daemon off;"]
+# Copy the source code and build the frontend
+COPY . .
+RUN npm run build
+
+# Step 2: Set up the Express.js server
+FROM node:16-alpine
+WORKDIR /app
+
+# Copy build output and server code from the builder stage
+COPY --from=builder /app/dist ./dist
+COPY server.js ./
+
+# Install only production dependencies for the server
+COPY package.json package-lock.json ./
+RUN npm install --production
+
+# Expose port 80
+EXPOSE 5174
+
+# Run the server
+CMD ["node", "server.js"]

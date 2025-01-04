@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend_auth.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.backend_auth.name }}
+spec:
+  replicas: {{ .Values.backend_auth.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend_auth.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend_auth.name }}
+    spec:
+      containers:
+      - name: {{ .Values.backend_auth.name }}
+        image: "{{ .Values.backend_auth.image.repository }}:{{ .Values.backend_auth.image.tag }}"
+        imagePullPolicy: {{ .Values.backend_auth.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.backend_auth.port }}
+        env:
+        {{- range .Values.env }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend_auth_service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.backend_auth.name }}
+  ports:
+    - protocol: {{ .Values.backend_auth_service.protocol }}
+      port: {{ .Values.backend_auth_service.port }}
+      targetPort: {{ .Values.backend_auth.port }}

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rsof
+  namespace: rso
   labels:
     app: rsof
 spec:
@@ -19,7 +20,7 @@ spec:
         image: matejbrodnik/rsof:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 5173
+        - containerPort: 5174
         env:
         - name: DB_HOST
           valueFrom:
