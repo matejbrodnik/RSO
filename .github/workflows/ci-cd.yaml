@@ -34,6 +34,12 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
       - name: DockerHub Login
         uses: docker/login-action@v2
         with:
