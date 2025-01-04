@@ -34,12 +34,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
       - name: DockerHub Login
         uses: docker/login-action@v2
         with:
@@ -49,6 +43,8 @@ jobs:
       - name: Build/push Image
         run: |
           cd ${{ matrix.directory }}
+          npm install
+          npm run build
           docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:${{ github.sha }} .
           docker tag ${{ matrix.image }} matejbrodnik/${{ matrix.image }}:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest
