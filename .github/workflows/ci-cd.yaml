@@ -14,6 +14,16 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory:
+          - rso
+          - server/auth
+          - server/geo
+        image:
+          - rsof
+          - rsoa
+          - rsog
 
     steps:
       - name: Code checkout
@@ -27,15 +37,7 @@ jobs:
 
       - name: Build/push Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsof:${{ github.sha }} .
-          docker tag rsof matejbrodnik/rsof:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/rsof:latest
-
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsoa:${{ github.sha }} .
-          docker tag rsoa matejbrodnik/rsoa:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/rsoa:latest
-
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:${{ github.sha }} .
-          docker tag rsog matejbrodnik/rsog:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
-
+          cd ${{ matrix.directory }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:${{ github.sha }} .
+          docker tag ${{ matrix.image }} matejbrodnik/${{ matrix.image }}:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest
