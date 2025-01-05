@@ -32,7 +32,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20.11.1'
 
       - name: DockerHub Login
         uses: docker/login-action@v2
@@ -44,7 +44,6 @@ jobs:
         run: |
           cd rso
           npm install
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsof:${{ github.sha }} .
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsof:latest .
           docker tag rsof ${{ secrets.DOCKER_USERNAME }}/rsof:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/rsof:latest
@@ -53,7 +52,6 @@ jobs:
         run: |
           cd server/auth
           npm install
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsoa:${{ github.sha }} .
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsoa:latest .
           docker tag rsoa ${{ secrets.DOCKER_USERNAME }}/rsoa:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/rsoa:latest
@@ -62,7 +60,6 @@ jobs:
         run: |
           cd server/geo
           npm install
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:${{ github.sha }} .
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:latest .
           docker tag rsog ${{ secrets.DOCKER_USERNAME }}/rsog:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
