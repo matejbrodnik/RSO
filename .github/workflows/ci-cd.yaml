@@ -45,5 +45,6 @@ jobs:
           cd ${{ matrix.directory }}
           npm install
           docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:${{ github.sha }} .
-          docker tag ${{ matrix.image }} matejbrodnik/${{ matrix.image }}:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest .
+          docker tag ${{ matrix.image }} ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest
