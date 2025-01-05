@@ -14,16 +14,16 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        directory:
-          - rso
-          - server/auth
-          - server/geo
-        image:
-          - rsof
-          - rsoa
-          - rsog
+    # strategy:
+    #   matrix:
+    #     directory:
+    #       - rso
+    #       - server/auth
+    #       - server/geo
+    #     image:
+    #       - rsof
+    #       - rsoa
+    #       - rsog
 
     steps:
       - name: Code checkout
@@ -40,11 +40,29 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build/push Image
+      - name: Build/push rsof
         run: |
-          cd ${{ matrix.directory }}
+          cd rso
           npm install
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:${{ github.sha }} .
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest .
-          docker tag ${{ matrix.image }} ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image }}:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsof:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsof:latest .
+          docker tag rsof ${{ secrets.DOCKER_USERNAME }}/rsof:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/rsof:latest
+      
+      - name: Build/push rsoa
+        run: |
+          cd server/auth
+          npm install
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsoa:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsoa:latest .
+          docker tag rsoa ${{ secrets.DOCKER_USERNAME }}/rsoa:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/rsoa:latest
+
+      - name: Build/push rsog
+        run: |
+          cd server/geo
+          npm install
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:latest .
+          docker tag rsog ${{ secrets.DOCKER_USERNAME }}/rsog:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
