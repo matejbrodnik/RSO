@@ -36,7 +36,7 @@
     methods: {
       async handleRegister() {
         try {
-          const response = await axios.post('http://rsoas.rso.svc.cluster.local:4000/register', {
+          const response = await axios.post('/api/register', {
             username: this.username,
             password: this.password,
           });

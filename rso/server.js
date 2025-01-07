@@ -17,39 +17,41 @@ app.use(cors({
   methods: ['GET', 'POST', 'OPTIONS'],
 }));
 
-
-// Serve static files
 const staticPath = join(__dirname, "dist"); // Adjust if your frontend build is in a different directory
 app.use(express.static(staticPath));
 
-// Proxy API calls to backend1
 app.use(
   "/api/login",
   createProxyMiddleware({
-    target: "http://rsoas.rso.svc.cluster.local/login", // Kubernetes service for Backend 1
+    target: "http://rsoas.rso.svc.cluster.local/login",
     changeOrigin: true,
   })
 );
 
-// Proxy API calls to backend2
 app.use(
   "/api/register",
   createProxyMiddleware({
-    target: "http://rsoas.rso.svc.cluster.local:4000/register", // Kubernetes service for Backend 1
+    target: "http://rsoas.rso.svc.cluster.local/register",
     changeOrigin: true,
   })
 );
 
 app.use(
-    "/api/location",
-    createProxyMiddleware({
-      target: "http://rsoas.rso.svc.cluster.local:4001/login", // Kubernetes service for Backend 2
-      changeOrigin: true,
-    })
-  );
+  "/api/location",
+  createProxyMiddleware({
+    target: "http://rsogs.rso.svc.cluster.local/location",
+    changeOrigin: true,
+  })
+);
   
+app.use(
+  "/api/locationlist",
+  createProxyMiddleware({
+    target: "http://rsogs.rso.svc.cluster.local/locationlist",
+    changeOrigin: true,
+  })
+);
 
-// Catch-all route to serve the frontend's index.html
 app.get("*", (req, res) => {
   res.sendFile(join(staticPath, "index.html"));
 });

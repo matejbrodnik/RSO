@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS Locations
 DROP TABLE IF EXISTS Users
 
 CREATE TABLE Users (
@@ -6,12 +7,10 @@ CREATE TABLE Users (
    password NVARCHAR(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS Locations
-
 CREATE TABLE Locations (
     id INT PRIMARY KEY IDENTITY(1,1),
     uid INT,
     lat FLOAT,
     lng FLOAT,
-	CONSTRAINT uid FOREIGN KEY (id) REFERENCES Users(id)
+	CONSTRAINT fk_uid FOREIGN KEY (uid) REFERENCES Users(id)
 );

@@ -45,8 +45,8 @@
           });
           console.log(response)
           if(response.data.redirect) {
-            localStorage.setItem("uid", response.data.uid)
-            this.$router.push(response.data.redirect)
+            localStorage.setItem("uid", response.data.uid);
+            this.$router.push(response.data.redirect);
           }
         } catch (error) {
           if (error.response) {

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectToDatabase } = require('./db');
 const sql = require('mssql');
+require('dotenv').config();
 
 const app = express();
 
@@ -77,6 +78,5 @@ app.post('/register', async (req, res) => {
 
 });
 
-
-const PORT = 4000;
+const PORT = process.env.PORT;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));

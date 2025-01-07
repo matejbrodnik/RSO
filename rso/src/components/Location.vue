@@ -1,39 +1,12 @@
 <template>
-  <v-card>
-    <v-layout>
-      <v-navigation-drawer class="bg-deep-purple" theme="dark" permanent>
-        <v-list>
-          <v-list-item>
-            <v-list-title style="font-weight: 600; font-size: larger;" >Weather App</v-list-title>
-          </v-list-item>
-        </v-list>
-        <v-divider :thickness="4"></v-divider>
-        <v-list>
-          <v-list-item @click="selected = NewLocation" style="font-size: large;" prepend-icon="mdi-map">
-            <v-list-title>New location</v-list-title>
-          </v-list-item>
-          <v-list-item @click="selected = AllLocations" style="font-size: large;"prepend-icon="mdi-map-marker">
-            <v-list-title>Your locations</v-list-title>
-          </v-list-item>
-          <v-list-item @click="selected = Alerts"style="font-size: large;" prepend-icon="mdi-alert-circle-outline">
-            <v-list-title>Alerts</v-list-title>
-          </v-list-item>
-        </v-list>
-        <template v-slot:append>
-          <div class="pa-2">
-            <v-btn block @click="signOut"> Logout </v-btn>
-          </div>
-        </template>
-      </v-navigation-drawer>
-
-    </v-layout>
-</v-card>
+<Navigation/>
 <div style="margin-left: 65%; text-align: center;">
           <div id="map"></div>
           <v-btn
             class="bg-deep-purple mt-3"
             theme="dark"
             style="position: relative;"
+            @click="setLocation"
           >
             Save Location
           </v-btn>
@@ -43,6 +16,7 @@
 <script>
   import axios from 'axios';
   import { defineComponent } from 'vue';
+  import Navigation from './Navigation.vue';
 
   export default defineComponent({
     name: "MapComponent",
@@ -51,6 +25,9 @@
         lat: 46.056946,
         lng: 14.505751,
       }
+    },
+    components: {
+      Navigation,
     },
     mounted() {
       const script = document.createElement("script");
@@ -93,11 +70,14 @@
         })
       },
       async setLocation() {
-        const response = await axios.post('http://rsogs.rso.svc.cluster.local:4001/location', {
-            uid: localStorage.getItem("uid") ?? 0,
-            lat: this.lat,
-            lng: this.lng,
-          });
+        // const response = await axios.post('/api/location', {
+        //     uid: localStorage.getItem("uid") ?? 1,
+        //     lat: this.lat,
+        //     lng: this.lng,
+        // });
+        localStorage.setItem('lat', this.lat);
+        localStorage.setItem('lng', this.lng);
+        this.$router.push('/weather');
       }
     },
   });

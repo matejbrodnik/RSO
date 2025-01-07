@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectToDatabase } = require('./db');
 const sql = require('mssql');
+require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -58,12 +59,34 @@ app.post('/location', async (req, res) => {
         } else {
           res.status(401).send('Invalid credentials2');
         }
-      } catch (err) {
+    } catch (err) {
         console.error(err);
         res.status(500).send('Database error2');
-      }
-
+    }
 });
 
-const PORT = 4001;
+app.post('/locationlist', async (req, res) => {
+    const { uid } = req.body;
+    console.log(username)
+
+    try {
+        const result = await dbPool
+          .request()
+          .input('uid', sql.VarChar, uid)
+          .query('SELECT * FROM Users WHERE uid = @uid');
+
+        if (result.recordset && result.recordset.length > 0) {
+            console.log(result);
+            res.json({ data: result.recordset });
+
+        } else {
+            res.status(401).send('Invalid credentials');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Database error');
+    }
+});
+
+const PORT = process.env.PORT;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));
