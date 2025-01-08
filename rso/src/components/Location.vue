@@ -8,7 +8,7 @@
             style="position: relative;"
             @click="setLocation"
           >
-            Save Location
+            Save Locatio
           </v-btn>
         </div>
 </template>
@@ -70,11 +70,14 @@
         })
       },
       async setLocation() {
-        // const response = await axios.post('/api/location', {
-        //     uid: localStorage.getItem("uid") ?? 1,
-        //     lat: this.lat,
-        //     lng: this.lng,
-        // });
+        console.log(window.location.href);
+        if (!window.location.href.includes('localhost')) {
+          const response = await axios.post('/api/location', {
+              uid: localStorage.getItem("uid") ?? 1,
+              lat: this.lat,
+              lng: this.lng,
+          });
+        }
         localStorage.setItem('lat', this.lat);
         localStorage.setItem('lng', this.lng);
         this.$router.push('/weather');

@@ -7,6 +7,11 @@
         :headers="headers"
         :items="locations"
         >
+        <template v-slot:item.action="{ item }">
+          <v-btn v-if="canEdit" class="bg-deep-purple" size="30" @click="openWeather(item)">
+            <v-icon size="medium20">mdi-search</v-icon>
+          </v-btn>
+        </template>
         </v-data-table>
     </v-card>
 </template>
@@ -40,20 +45,32 @@ export default defineComponent({
           const response = await axios.post('/api/locationlist', {
             uid: localStorage.getItem("uid") ?? 1,
           });
+          console.log("response:")
           console.log(response);
           locations.value = response.data.data;
         } catch (error) {
+          console.log("error:")
           if (error.response) {
-            this.errorMessage = error.response.data.message;
+            console.log(error.response.data.message);
           } else {
-            this.errorMessage = 'An error occurred. Please try again.';
+            console.log('An error occurred. Please try again.');
           }
         }
+    }
+
+    async function openWeather(item) {
+      if (item) {
+        console.log("item");
+        console.log(item);
+        localStorage.setItem('lat', item);
+        this.$router.push('/weather');
+      }
     }
 
     return {
       headers,
       locations,
+      openWeather,
     };
   },
   components: {

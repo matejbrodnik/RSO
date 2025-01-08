@@ -12,7 +12,7 @@
             <v-list-item @click="$router.push('/home');" style="font-size: large;" prepend-icon="mdi-map">
                 <v-list-title>New location</v-list-title>
             </v-list-item>
-            <v-list-item @click="listLocations" style="font-size: large;"prepend-icon="mdi-map-marker">
+            <v-list-item @click="$router.push('/locationlist');" style="font-size: large;"prepend-icon="mdi-map-marker">
                 <v-list-title>Your locations</v-list-title>
             </v-list-item>
             <!-- <v-list-item @click="selected = Alerts"style="font-size: large;" prepend-icon="mdi-alert-circle-outline">

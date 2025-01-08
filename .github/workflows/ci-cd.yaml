@@ -60,3 +60,17 @@ jobs:
           npm install
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
+      
+      - name: Set Up kubeconfig
+        run: |
+          echo "${{ secrets.KUBECONFIG_CONTENT }}" > kubeconfig
+          export KUBECONFIG=$(pwd)/kubeconfig
+        env:
+          KUBECONFIG: kubeconfig
+
+      - name: Access check
+        run: kubectl get nodes
+
+      - name: Reset cluster
+        run: |
+          kubectl rollout restart --namespace rso

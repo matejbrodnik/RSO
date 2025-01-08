@@ -67,21 +67,13 @@ app.post('/location', async (req, res) => {
 
 app.post('/locationlist', async (req, res) => {
     const { uid } = req.body;
-    console.log(username)
-
     try {
         const result = await dbPool
-          .request()
-          .input('uid', sql.VarChar, uid)
-          .query('SELECT * FROM Users WHERE uid = @uid');
-
-        if (result.recordset && result.recordset.length > 0) {
-            console.log(result);
-            res.json({ data: result.recordset });
-
-        } else {
-            res.status(401).send('Invalid credentials');
-        }
+            .request()
+            .input('uid', sql.VarChar, uid)
+            .query('SELECT * FROM Locations WHERE uid = @uid');
+        console.log(result);
+        res.json({ data: result.recordset ?? {} });
     } catch (err) {
         console.error(err);
         res.status(500).send('Database error');
