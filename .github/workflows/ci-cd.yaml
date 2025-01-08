@@ -71,4 +71,4 @@ jobs:
 
       - name: Reset cluster
         run: |
-          kubectl rollout restart --namespace rso
+          kubectl rollout restart deployment --namespace rso
