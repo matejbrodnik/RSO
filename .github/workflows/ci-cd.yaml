@@ -34,6 +34,14 @@ jobs:
         with:
           node-version: '20.11.1'
 
+      - name: Set up Kubectl
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG_CONTENT }}
+
+      - name: Access check
+        run: kubectl get nodes
+
       - name: DockerHub Login
         uses: docker/login-action@v2
         with:
@@ -60,14 +68,6 @@ jobs:
           npm install
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
-      
-      - name: Set up Kubectl
-        uses: azure/k8s-set-context@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-
-      - name: Access check
-        run: kubectl get nodes
 
       - name: Reset cluster
         run: |
