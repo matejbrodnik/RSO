@@ -50,6 +50,8 @@ kind: Service
 metadata:
   name: rsoas
   namespace: rso
+  # labels:
+  #   app: rsoa
 spec:
   selector:
     app: rsoa

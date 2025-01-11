@@ -4,7 +4,13 @@ const cors = require('cors');
 const { connectToDatabase } = require('./db');
 const sql = require('mssql');
 require('dotenv').config();
+const client = require('prom-client');
 
+const collectDefaultMetrics = client.collectDefaultMetrics;
+const Registry = client.Registry;
+const register = new Registry();
+ 
+collectDefaultMetrics({ register });
 const app = express();
 
 app.use(cors({
@@ -13,19 +19,34 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-
 (async () => {
     dbPool = await connectToDatabase();
-  })();
+})();
 
 app.get('/', (req, res) => {
-    res.send('world Hello');
+    res.send('Hello world');
+});
+
+app.get('/health', (req, res) => {
+  console.log("here");
+    res.status(200).send('OK'); 
+});
+
+app.get('/ready', async (req, res) => {
+    try {
+        const result = await dbPool.request().query('SELECT 1 AS Ready');
+        if (result.recordset[0].Ready === 1)
+            res.status(200).send('OK'); 
+    }
+    catch {
+        res.status(503).send('Database not ready'); 
+    }
 });
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     console.log(username)
-
+    const end = httpRequestDuration.startTimer();
     try {
         const result = await dbPool
           .request()
@@ -34,11 +55,8 @@ app.post('/login', async (req, res) => {
           .query('SELECT * FROM Users WHERE username = @username AND password = @password');
 
         if (result.recordset && result.recordset.length > 0) {
-        //   res.status(200).send('Login successful');
             console.log(result);
-            // res.redirect(302, '/home');
             res.json({ uid: result.recordset[0].id, redirect: '/home' });
-
         } else {
           res.status(401).send('Invalid credentials');
         }
@@ -46,12 +64,6 @@ app.post('/login', async (req, res) => {
         console.error(err);
         res.status(500).send('Database error');
       }
-
-    // if (user) {
-    //     res.json({ message: 'Login successful', token: 'dummy-token' });
-    // } else {
-    //     res.status(401).json({ message: 'Invalid username or password' });
-    // }
 });
 
 app.post('/register', async (req, res) => {
@@ -76,6 +88,16 @@ app.post('/register', async (req, res) => {
         res.status(500).send('Database error1');
       }
 
+});
+
+// app.get('/metrics', async (req, res) => {
+//   res.set('Content-Type', register.contentType);
+//   res.end(await register.metrics());
+// });
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.send(await register.metrics());
 });
 
 const PORT = process.env.PORT;

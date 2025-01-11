@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend_weather.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.backend_weather.name }}
+spec:
+  replicas: {{ .Values.backend_weather.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend_weather.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend_weather.name }}
+    spec:
+      containers:
+      - name: {{ .Values.backend_weather.name }}
+        image: "{{ .Values.backend_weather.image.repository }}:{{ .Values.backend_weather.image.tag }}"
+        imagePullPolicy: {{ .Values.backend_weather.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.backend_weather.port }}
+        env:
+        {{- range .Values.env }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend_weather_service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.backend_weather.name }}
+  ports:
+    - protocol: {{ .Values.backend_weather_service.protocol }}
+      port: {{ .Values.backend_weather_service.port }}
+      targetPort: {{ .Values.backend_weather.port }}

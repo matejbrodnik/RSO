@@ -29,6 +29,21 @@ spec:
               name: {{ .secretName }}
               key: {{ .key }}
         {{- end }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.backend_auth.livenessProbe.path }}
+            port: {{ .Values.backend_auth.port }}
+          initialDelaySeconds: {{ .Values.backend_auth.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend_auth.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.backend_auth.livenessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.backend_auth.livenessProbe.failureThreshold }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.backend_auth.readinessProbe.path }}
+            port: {{ .Values.backend_auth.port }}
+          initialDelaySeconds: {{ .Values.backend_auth.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend_auth.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.backend_auth.readinessProbe.failureThreshold }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets.name }}
 ---
@@ -37,6 +52,8 @@ kind: Service
 metadata:
   name: {{ .Values.backend_auth_service.name }}
   namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.backend_auth.name }}
 spec:
   selector:
     app: {{ .Values.backend_auth.name }}

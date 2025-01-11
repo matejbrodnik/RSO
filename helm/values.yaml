@@ -37,6 +37,20 @@ backend_auth:
     tag: latest
     pullPolicy: Always
   port: 4000
+  livenessProbe:
+    path: "/health"
+    initialDelaySeconds: 5
+    periodSeconds: 15
+    timeoutSeconds: 1
+    failureThreshold: 2
+  readinessProbe:
+    path: "/ready"
+    initialDelaySeconds: 10
+    periodSeconds: 15
+    timeoutSeconds: 2
+    failureThreshold: 2
+  # scrape: "true"
+  # path: "/metrics"
 
 backend_auth_service:
   name: rsoas
@@ -54,5 +68,19 @@ backend_geo:
 
 backend_geo_service:
   name: rsogs
+  protocol: TCP
+  port: 80
+
+backend_weather:
+  name: rsow
+  replicas: 3
+  image:
+    repository: matejbrodnik/rsow
+    tag: latest
+    pullPolicy: Always
+  port: 4002
+
+backend_weather_service:
+  name: rsows
   protocol: TCP
   port: 80

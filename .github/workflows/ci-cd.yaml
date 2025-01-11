@@ -38,6 +38,11 @@ jobs:
         uses: azure/k8s-set-context@v1
         with:
           kubeconfig: ${{ secrets.KUBECONFIG_CONTENT }}
+      
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          helm version
 
       - name: Access check
         run: kubectl get nodes
@@ -68,6 +73,10 @@ jobs:
           npm install
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
+
+      - name: Upgrade charts
+        run: |
+          helm upgrade --install rso ./helm --namespace rso --debug
 
       - name: Reset cluster
         run: |

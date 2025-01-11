@@ -8,8 +8,8 @@
         :items="locations"
         >
         <template v-slot:item.action="{ item }">
-          <v-btn v-if="canEdit" class="bg-deep-purple" size="30" @click="openWeather(item)">
-            <v-icon size="medium20">mdi-search</v-icon>
+          <v-btn class="bg-deep-purple" @click="openWeather(item)">
+            Forecast
           </v-btn>
         </template>
         </v-data-table>
@@ -32,6 +32,10 @@ export default defineComponent({
       {
         key: 'lng',
         title: 'Longitude',
+      },
+      {
+        key: 'action',
+        title: '',
       },
     ]);
     const locations = ref([{lat: 10, lng: 20}, {lat: 10, lng: 20}])

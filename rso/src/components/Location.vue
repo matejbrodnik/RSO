@@ -8,7 +8,7 @@
             style="position: relative;"
             @click="setLocation"
           >
-            Save Locatio
+            Save Location
           </v-btn>
         </div>
 </template>
