@@ -52,6 +52,14 @@ app.use(
   })
 );
 
+app.use(
+  "/api/weather",
+  createProxyMiddleware({
+    target: "http://rsows.rso.svc.cluster.local/weather",
+    changeOrigin: true,
+  })
+);
+
 app.get("*", (req, res) => {
   res.sendFile(join(staticPath, "index.html"));
 });

@@ -29,6 +29,14 @@ spec:
               name: {{ .secretName }}
               key: {{ .key }}
         {{- end }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.backend_weather.livenessProbe.path }}
+            port: {{ .Values.backend_weather.port }}
+          initialDelaySeconds: {{ .Values.backend_weather.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend_weather.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.backend_weather.livenessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.backend_weather.livenessProbe.failureThreshold }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets.name }}
 ---

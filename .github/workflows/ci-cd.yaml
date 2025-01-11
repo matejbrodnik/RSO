@@ -73,11 +73,18 @@ jobs:
           npm install
           docker build -t ${{ secrets.DOCKER_USERNAME }}/rsog:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/rsog:latest
+      
+      - name: Build/push rsog
+        run: |
+          cd server/weather
+          npm install
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsow:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/rsow:latest
 
       - name: Upgrade charts
         run: |
-          helm upgrade --install rso ./helm --namespace rso --debug
+          helm upgrade --install rso ./helm --namespace rso --force
 
-      - name: Reset cluster
-        run: |
-          kubectl rollout restart deployment --namespace rso
+      # - name: Reset cluster
+      #   run: |
+      #     kubectl rollout restart deployment --namespace rso

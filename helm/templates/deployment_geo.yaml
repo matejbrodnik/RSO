@@ -29,6 +29,21 @@ spec:
               name: {{ .secretName }}
               key: {{ .key }}
         {{- end }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.backend_geo.livenessProbe.path }}
+            port: {{ .Values.backend_geo.port }}
+          initialDelaySeconds: {{ .Values.backend_geo.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend_geo.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.backend_geo.livenessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.backend_geo.livenessProbe.failureThreshold }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.backend_geo.readinessProbe.path }}
+            port: {{ .Values.backend_geo.port }}
+          initialDelaySeconds: {{ .Values.backend_geo.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend_geo.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.backend_geo.readinessProbe.failureThreshold }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets.name }}
 ---

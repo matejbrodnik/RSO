@@ -146,28 +146,23 @@ export default defineComponent({
         const lng = localStorage.getItem('lng');
         console.log(lat);
         console.log(lng);
-        // console.log($route.params.lat);
-        // const responses = await fetchWeatherApi(url, params);
-        // const response = responses[0];
-        //const daily = response.daily();
-        // console.log(daily);
-        const response = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`);
-        
+        //const response = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`);
+        const response = await axios.post('/api/weather', {
+            lat: lat,
+            lng: lng,
+        });
         const daily = response.data.daily;
 
         console.log(response);
         console.log(daily);
         console.log(daily.temperature_2m_max);
         const weatherData = daily.time.map((date, i) => ({
-          date,
-          mintemp: daily.temperature_2m_min[i],
-          maxtemp: daily.temperature_2m_max[i],
-          weather: weatherCodeMap[daily.weather_code[i]],
-          rain: daily.precipitation_probability_max[i],
+            date,
+            mintemp: daily.temperature_2m_min[i],
+            maxtemp: daily.temperature_2m_max[i],
+            weather: weatherCodeMap[daily.weather_code[i]],
+            rain: daily.precipitation_probability_max[i],
         }));
-        //     daily.variables(0).valuesArray(),
-        //     daily.variables(1).valuesArray(),
-        // ];
         weather.value = weatherData;
         console.log(weatherData);
     }
