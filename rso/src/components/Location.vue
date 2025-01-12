@@ -43,6 +43,8 @@
     },
     methods: {
       async initMap() {
+        console.log(process.env);
+        console.log(process.env.KEY);
         const map = new google.maps.Map(document.getElementById("map"), {
           center: { lat: this.lat, lng: this.lng },
           zoom: 9,
@@ -55,6 +57,8 @@
         });
 
         google.maps.event.addListener(map, "click", event => {
+            console.log(process.env);
+            console.log(process.env.KEY);
             this.lat = event.latLng.lat();
             this.lng = event.latLng.lng();
             let lat = this.lat;
