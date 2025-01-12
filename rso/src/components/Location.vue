@@ -77,6 +77,8 @@
         })
       },
       async setLocation() {
+        console.log(process.env);
+        console.log(process.env.KEY);
         console.log(window.location.href);
         if (!window.location.href.includes('localhost')) {
           const response = await axios.post('/api/location', {
