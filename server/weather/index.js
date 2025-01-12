@@ -1,7 +1,15 @@
 const express = require('express');
 require('dotenv').config();
 const axios = require('axios');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
+app.use(bodyParser.json());
+
+app.use(cors({
+  origin: '*', 
+}));
 
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
@@ -65,12 +73,12 @@ app.get('/health', (req, res) => {
  *         description: Openmeteo error.
  */
 app.post('/weather', async (req, res) => {
-    const { lat, lng } = req.body;
+    let { lat, lng } = req.body;
     try {
         const response = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`);
-        res.json({ data: response.daily });
+        res.json({ data: response.data });
     } catch (err) {
-        res.status(500).send('Openmeteo API error');
+        res.status(500).send(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`);
     }
 });
 

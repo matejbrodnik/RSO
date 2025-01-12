@@ -17,6 +17,7 @@
   import axios from 'axios';
   import { defineComponent } from 'vue';
   import Navigation from './Navigation.vue';
+  require('dotenv').config();
 
   export default defineComponent({
     name: "MapComponent",
@@ -31,7 +32,7 @@
     },
     mounted() {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD26pAYLTTluZjgPsljecxy4ppWdudC33A`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.KEY}`;
       script.async = true;
       script.onload = () => {
         this.initMap();

@@ -43,9 +43,15 @@ export default defineComponent({
             this.$router.push('/locationlist');
         }
 
+        function signOut() {
+            localStorage.setItem("uid", null);
+            this.$router.push('/login');
+        }
+
         return {
             newLocation,
             listLocations,
+            signOut,
         };
   },
 });

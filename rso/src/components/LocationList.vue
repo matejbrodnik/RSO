@@ -66,7 +66,8 @@ export default defineComponent({
       if (item) {
         console.log("item");
         console.log(item);
-        localStorage.setItem('lat', item);
+        localStorage.setItem('lat', item.lat);
+        localStorage.setItem('lng', item.lng);
         this.$router.push('/weather');
       }
     }

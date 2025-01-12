@@ -1,6 +1,7 @@
 
-# Frontend mikrostoritev
-Ta mikrostoritev je namenjena prikazu vsebine uporabnikom. Uporablja ogrodje Vue.
+# Frontend
+Narejen z uporabo ogrodja Vue.
+API klice preusmerja proxy middleware (razširitev http-proxy-middleware) na express serverju frontenda.
 
 ## Sestava
 
@@ -18,3 +19,6 @@ Stran s prikazom vremena na izbrani lokaciji. Prikaže se po shranitvi lokacije 
 
 ### Prikaz shranjenih lokacij
 Stran s seznamom shranjenih lokacij trenutno prijavljenega uporabnika.
+
+## .env
+KEY=

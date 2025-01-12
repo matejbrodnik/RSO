@@ -145,17 +145,14 @@ export default defineComponent({
         const lat = localStorage.getItem('lat');
         const lng = localStorage.getItem('lng');
         console.log(lat);
+        console.log("---");
         console.log(lng);
         //const response = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`);
         const response = await axios.post('/api/weather', {
             lat: lat,
             lng: lng,
         });
-        const daily = response.data.daily;
-
-        console.log(response);
-        console.log(daily);
-        console.log(daily.temperature_2m_max);
+        const daily = response.data.data.daily;
         const weatherData = daily.time.map((date, i) => ({
             date,
             mintemp: daily.temperature_2m_min[i],

@@ -20,3 +20,10 @@ Vrne sporočilo s kodo 200.
 
 ###  GET `/ready`
 Pošlje preprosto poizvedbo na podatkovno bazo. Če dobi odgovor, vrne sporočilo s kodo 200, sicer pa sporočilo s kodo 503.
+
+## .env
+PORT=
+DB_USER=
+DB_PASSWORD=
+DB_SERVER=
+DB_DB=
