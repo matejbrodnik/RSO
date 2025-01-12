@@ -31,6 +31,8 @@
       Navigation,
     },
     mounted() {
+      console.log(process.env);
+      console.log(process.env.KEY);
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.KEY}`;
       script.async = true;
