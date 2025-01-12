@@ -1,6 +1,12 @@
 namespace: rso
 imagePullSecrets:
   name: dockerhub-secret
+
+google:
+  - name: KEY
+    secretName: google-key
+    key: google-key
+
 env:
   - name: DB_HOST
     secretName: azure-sql-credentials
@@ -14,10 +20,6 @@ env:
   - name: DB_NAME
     secretName: azure-sql-credentials
     key: db-name
-google:
-  - name: KEY
-    secretName: google-key
-    key: google-key
 
 frontend:
   name: rsof
