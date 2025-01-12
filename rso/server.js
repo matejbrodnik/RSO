@@ -17,6 +17,8 @@ app.use(cors({
   methods: ['GET', 'POST', 'OPTIONS'],
 }));
 
+localStorage.setItem("key", process.env.VITE_KEY);
+
 const staticPath = join(__dirname, "dist"); // Adjust if your frontend build is in a different directory
 app.use(express.static(staticPath));
 
