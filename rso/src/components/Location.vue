@@ -17,7 +17,7 @@
   import axios from 'axios';
   import { defineComponent } from 'vue';
   import Navigation from './Navigation.vue';
-  require('dotenv').config();
+  import dotenv from 'dotenv';
 
   export default defineComponent({
     name: "MapComponent",
