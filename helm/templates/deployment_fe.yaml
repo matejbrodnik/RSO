@@ -22,12 +22,13 @@ spec:
         ports:
         - containerPort: {{ .Values.frontend.port }}
         env:
-        {{- range .Values.env }}
+        {{- range .Values.google }}
         - name: {{ .name }}
           valueFrom:
             secretKeyRef:
               name: {{ .secretName }}
               key: {{ .key }}
+        - name: 
         {{- end }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets.name }}
