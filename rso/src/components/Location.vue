@@ -32,9 +32,10 @@
     },
     mounted() {
       console.log(process.env);
-      console.log(process.env.GOOGLE_KEY);
+      console.log(process.env.VITE_KEY);
+      console.log(import.meta.env.VITE_KEY);
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?GOOGLE_KEY=${process.env.GOOGLE_KEY}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?VITE_KEY=${import.meta.env.VITE_KEY}`;
       script.async = true;
       script.onload = () => {
         this.initMap();
@@ -44,7 +45,8 @@
     methods: {
       async initMap() {
         console.log(process.env);
-        console.log(process.env.GOOGLE_KEY);
+        console.log(process.env.VITE_KEY);
+        console.log(import.meta.env.VITE_KEY);
         const map = new google.maps.Map(document.getElementById("map"), {
           center: { lat: this.lat, lng: this.lng },
           zoom: 9,
@@ -58,7 +60,7 @@
 
         google.maps.event.addListener(map, "click", event => {
             console.log(process.env);
-            console.log(process.env.GOOGLE_KEY);
+            console.log(process.env.VITE_KEY);
             this.lat = event.latLng.lat();
             this.lng = event.latLng.lng();
             let lat = this.lat;
@@ -78,7 +80,8 @@
       },
       async setLocation() {
         console.log(process.env);
-        console.log(process.env.GOOGLE_KEY);
+        console.log(process.env.VITE_KEY);
+        console.log(import.meta.env.VITE_KEY);
         console.log(window.location.href);
         if (!window.location.href.includes('localhost')) {
           const response = await axios.post('/api/location', {

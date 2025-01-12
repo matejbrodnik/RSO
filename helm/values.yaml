@@ -3,7 +3,7 @@ imagePullSecrets:
   name: dockerhub-secret
 
 google:
-  - name: GOOGLE_KEY
+  - name: VITE_KEY
     secretName: google-key
     key: google-key
 
