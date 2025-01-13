@@ -111,7 +111,7 @@ app.get('/ready', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     console.log(username)
-    const end = httpRequestDuration.startTimer();
+    // const end = httpRequestDuration.startTimer();
     try {
         const result = await dbPool
           .request()
