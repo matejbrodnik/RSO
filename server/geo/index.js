@@ -180,5 +180,9 @@ app.post('/locationlist', async (req, res) => {
     }
 });
 
+app.post('/getkey', async (req, res) => {
+    res.json({ key: process.env.KEY }); // v config od geo, ne of frotnend
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));

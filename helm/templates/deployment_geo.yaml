@@ -22,7 +22,7 @@ spec:
         ports:
         - containerPort: {{ .Values.backend_geo.port }}
         env:
-        {{- range .Values.env }}
+        {{- range .Values.backend_geo.env }}
         - name: {{ .name }}
           valueFrom:
             secretKeyRef:

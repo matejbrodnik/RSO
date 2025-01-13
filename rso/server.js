@@ -62,6 +62,14 @@ app.use(
   })
 );
 
+app.use(
+  "/getkey",
+  createProxyMiddleware({
+    target: "http://rsogs.rso.svc.cluster.local/getkey",
+    changeOrigin: true,
+  })
+);
+
 app.get("*", (req, res) => {
   res.sendFile(join(staticPath, "index.html"));
 });

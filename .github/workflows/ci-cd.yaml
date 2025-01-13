@@ -37,7 +37,7 @@ jobs:
       - name: Set up Kubectl
         uses: azure/k8s-set-context@v1
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG_CONTENT }}
+          kubeconfig: ${{ secrets.KUBECONFIG_CONTENT2 }}
       
       - name: Install Helm
         run: |

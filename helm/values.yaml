@@ -2,25 +2,6 @@ namespace: rso
 imagePullSecrets:
   name: dockerhub-secret
 
-google:
-  - name: VITE_KEY
-    secretName: google-key
-    key: google-key
-
-env:
-  - name: DB_HOST
-    secretName: azure-sql-credentials
-    key: db-host
-  - name: DB_USER
-    secretName: azure-sql-credentials
-    key: db-user
-  - name: DB_PASSWORD
-    secretName: azure-sql-credentials
-    key: db-password
-  - name: DB_NAME
-    secretName: azure-sql-credentials
-    key: db-name
-
 frontend:
   name: rsof
   replicas: 3
@@ -55,8 +36,19 @@ backend_auth:
     periodSeconds: 15
     timeoutSeconds: 2
     failureThreshold: 2
-  # scrape: "true"
-  # path: "/metrics"
+  env:
+  - name: DB_HOST
+    secretName: azure-sql-credentials
+    key: db-host
+  - name: DB_USER
+    secretName: azure-sql-credentials
+    key: db-user
+  - name: DB_PASSWORD
+    secretName: azure-sql-credentials
+    key: db-password
+  - name: DB_NAME
+    secretName: azure-sql-credentials
+    key: db-name
 
 backend_auth_service:
   name: rsoas
@@ -83,6 +75,20 @@ backend_geo:
     periodSeconds: 15
     timeoutSeconds: 2
     failureThreshold: 2
+  env:
+  - name: DB_HOST
+    secretName: azure-sql-credentials2
+    key: db-host
+  - name: DB_USER
+    secretName: azure-sql-credentials2
+    key: db-user
+  - name: DB_PASSWORD
+    secretName: azure-sql-credentials2
+    key: db-password
+  - name: DB_NAME
+    secretName: azure-sql-credentials2
+    key: db-name
+
 
 backend_geo_service:
   name: rsogs
