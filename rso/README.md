@@ -19,6 +19,3 @@ Stran s prikazom vremena na izbrani lokaciji. Prikaže se po shranitvi lokacije 
 
 ### Prikaz shranjenih lokacij
 Stran s seznamom shranjenih lokacij trenutno prijavljenega uporabnika.
-
-## .env
-KEY=
