@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectToDatabase } = require('./db');
 const sql = require('mssql');
-require('dotenv').config();
+//require('dotenv').config();
 const client = require('prom-client');
 
 const collectDefaultMetrics = client.collectDefaultMetrics;
@@ -204,5 +204,5 @@ app.get('/metrics', async (req, res) => {
   res.send(await register.metrics());
 });
 
-const PORT = process.env.PORT;
+const PORT = 4000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));

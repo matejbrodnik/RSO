@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectToDatabase } = require('./db');
 const sql = require('mssql');
-require('dotenv').config();
+//require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -184,5 +184,5 @@ app.post('/getkey', async (req, res) => {
     res.json({ key: process.env.KEY }); // v config od geo, ne of frotnend
 });
 
-const PORT = process.env.PORT;
+const PORT = 4001;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));
