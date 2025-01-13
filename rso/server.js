@@ -21,17 +21,17 @@ const staticPath = join(__dirname, "dist"); // Adjust if your frontend build is 
 app.use(express.static(staticPath));
 
 app.use(
-  "/api/login",
+  "/api/register",
   createProxyMiddleware({
-    target: "http://rsoas.rso.svc.cluster.local/login",
+    target: "http://rsoas.rso.svc.cluster.local/register",
     changeOrigin: true,
   })
 );
 
 app.use(
-  "/api/register",
+  "/api/login",
   createProxyMiddleware({
-    target: "http://rsoas.rso.svc.cluster.local/register",
+    target: "http://rsoas.rso.svc.cluster.local/login",
     changeOrigin: true,
   })
 );
@@ -56,14 +56,6 @@ app.use(
   "/api/weather",
   createProxyMiddleware({
     target: "http://rsows.rso.svc.cluster.local/weather",
-    changeOrigin: true,
-  })
-);
-
-app.use(
-  "/getkey",
-  createProxyMiddleware({
-    target: "http://rsogs.rso.svc.cluster.local/getkey",
     changeOrigin: true,
   })
 );

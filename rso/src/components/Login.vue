@@ -39,6 +39,7 @@
     methods: {
       async handleLogin() {
         try {
+          console.log(this.username);
           const response = await axios.post('/api/login', {
             username: this.username,
             password: this.password,

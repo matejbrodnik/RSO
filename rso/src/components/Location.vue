@@ -32,7 +32,7 @@
     },
     mounted() {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD26pAYLTTluZjgPsljecxy4ppWdudC33A`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBPiprMeKFTJrJ5_yBBLVOFjWy-iF86U2M`;
       script.async = true;
       script.onload = () => {
         this.initMap();
@@ -72,11 +72,6 @@
       },
       async setLocation() {
         const key = localStorage.getItem("key");
-        console.log(process.env);
-        console.log(process.env.VITE_KEY);
-        console.log(import.meta.env);
-        console.log(key);
-        console.log(window.location.href);
         if (!window.location.href.includes('localhost')) {
           const response = await axios.post('/api/location', {
               uid: localStorage.getItem("uid") ?? 1,
